@@ -2,6 +2,7 @@ package com.awildemann.demo_park_api.service;
 
 import com.awildemann.demo_park_api.entity.Usuario;
 import com.awildemann.demo_park_api.exception.EntityNotFoundException;
+import com.awildemann.demo_park_api.exception.PasswordInvalidException;
 import com.awildemann.demo_park_api.exception.UsernameUniqueViolationException;
 import com.awildemann.demo_park_api.repository.UsuarioRepository;
 
@@ -37,12 +38,12 @@ public class UsuarioService {
     @Transactional
     public Usuario editarSenha(Long id, String senhaAtual, String novaSenha, String confirmaSenha) {
         if (!novaSenha.equals(confirmaSenha)) {
-            throw new RuntimeException("Senhas diferentes.");
+            throw new PasswordInvalidException("Senhas diferentes.");
         }
 
         Usuario user = buscarPorId(id);
         if (!user.getPassword().equals(senhaAtual)) {
-            throw new RuntimeException("Senha atual incorreta.");
+            throw new PasswordInvalidException("Senha atual incorreta.");
         }
         user.setPassword(novaSenha);
         return user;
