@@ -17,6 +17,6 @@ public class UsuarioCreateDTO {
     private String username;
 
     @NotBlank
-    @Size(min = 6, max = 12)
+    @Size(min = 6, max = 8)
     private String password;
 }
