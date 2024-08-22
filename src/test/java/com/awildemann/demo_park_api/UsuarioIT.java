@@ -38,7 +38,7 @@ public class UsuarioIT {
     }
 
     @Test
-    public void erroNaCriacaoDoUsuario() {
+    public void erroNaCriacaoDeUsuarioComUsernameInvalido() {
         ErrorMessage responseBody = testClient
                 .post()
                 .uri("/api/v1/usuarios")
@@ -80,7 +80,49 @@ public class UsuarioIT {
     }
 
     @Test
-    public void criarUsuarioComNomeRepetido() {
+    public void erroNaCriacaoDeUsuarioComPasswordInvalida() {
+        ErrorMessage responseBody = testClient
+                .post()
+                .uri("/api/v1/usuarios")
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(new UsuarioCreateDTO("tody@email.com", ""))
+                .exchange()
+                .expectStatus().isEqualTo(422)
+                .expectBody(ErrorMessage.class)
+                .returnResult().getResponseBody();
+
+        org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
+        org.assertj.core.api.Assertions.assertThat(responseBody.getStatus()).isEqualTo(422);
+
+        responseBody = testClient
+                .post()
+                .uri("/api/v1/usuarios")
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(new UsuarioCreateDTO("tody@email.com", "123"))
+                .exchange()
+                .expectStatus().isEqualTo(422)
+                .expectBody(ErrorMessage.class)
+                .returnResult().getResponseBody();
+
+        org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
+        org.assertj.core.api.Assertions.assertThat(responseBody.getStatus()).isEqualTo(422);
+
+        responseBody = testClient
+                .post()
+                .uri("/api/v1/usuarios")
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(new UsuarioCreateDTO("tody@email.com", "123456789"))
+                .exchange()
+                .expectStatus().isEqualTo(422)
+                .expectBody(ErrorMessage.class)
+                .returnResult().getResponseBody();
+
+        org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
+        org.assertj.core.api.Assertions.assertThat(responseBody.getStatus()).isEqualTo(422);
+    }
+
+    @Test
+    public void erroNacriacaoDeUsuarioComUsernameRepetido() {
         ErrorMessage responseBody = testClient
                 .post()
                 .uri("/api/v1/usuarios")
@@ -94,5 +136,35 @@ public class UsuarioIT {
         org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
         org.assertj.core.api.Assertions.assertThat(responseBody.getStatus()).isEqualTo(409);
 
+    }
+
+    @Test
+    public void buscarUsuarioComIdExistenteComSucesso() {
+        UsuarioResponseDTO responseBody = testClient
+                .get()
+                .uri("/api/v1/usuarios/100")
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(UsuarioResponseDTO.class)
+                .returnResult().getResponseBody();
+
+        org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
+        org.assertj.core.api.Assertions.assertThat(responseBody.getId()).isEqualTo(100);
+        org.assertj.core.api.Assertions.assertThat(responseBody.getUsername()).isEqualTo("ana@email.com");
+        org.assertj.core.api.Assertions.assertThat(responseBody.getRole()).isEqualTo("ADMIN");
+    }
+
+    @Test
+    public void ErroAoBuscarUsuarioComIdInexistente() {
+        ErrorMessage responseBody = testClient
+                .get()
+                .uri("/api/v1/usuarios/0")
+                .exchange()
+                .expectStatus().isNotFound()
+                .expectBody(ErrorMessage.class)
+                .returnResult().getResponseBody();
+
+        org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
+        org.assertj.core.api.Assertions.assertThat(responseBody.getStatus()).isEqualTo(404);
     }
 }
