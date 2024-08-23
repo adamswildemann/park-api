@@ -19,9 +19,9 @@ public class JwtUtils {
     public static final String JWT_BEARER = "Bearer ";
     public static final String JWT_AUTH = "Authorization";
     public static final String SECRET_KEY = "0123456789-0123456789-0123456789";
-    public static final Long EXPIRE_DAYS = 0;
-    public static final Long EXPIRE_HOURS = 0;
-    public static final Long EXPIRE_MINUTES = 2;
+    public static final Long EXPIRE_DAYS = 0L;
+    public static final Long EXPIRE_HOURS = 0L;
+    public static final Long EXPIRE_MINUTES = 2L;
 
     private JwtUtils() {
     }
