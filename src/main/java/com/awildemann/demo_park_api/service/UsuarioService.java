@@ -4,7 +4,6 @@ import com.awildemann.demo_park_api.entity.Usuario;
 import com.awildemann.demo_park_api.exception.EntityNotFoundException;
 import com.awildemann.demo_park_api.exception.PasswordInvalidException;
 import com.awildemann.demo_park_api.exception.UsernameUniqueViolationException;
-import com.awildemann.demo_park_api.jwt.JwtUtils;
 import com.awildemann.demo_park_api.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
