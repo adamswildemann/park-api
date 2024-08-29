@@ -3,13 +3,13 @@ package com.awildemann.demo_park_api;
 import com.awildemann.demo_park_api.jwt.JwtToken;
 import com.awildemann.demo_park_api.web.dto.UsuarioLoginDTO;
 import com.awildemann.demo_park_api.web.exception.ErrorMessage;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.reactive.server.WebTestClient;
-import org.assertj.core.api.Assertions;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Sql(scripts = "/sql/usuarios/usuarios-insert.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
