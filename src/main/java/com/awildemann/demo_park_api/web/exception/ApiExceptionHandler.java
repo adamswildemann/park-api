@@ -1,9 +1,6 @@
 package com.awildemann.demo_park_api.web.exception;
 
-import com.awildemann.demo_park_api.exception.CpfUniqueViolationException;
-import com.awildemann.demo_park_api.exception.EntityNotFoundException;
-import com.awildemann.demo_park_api.exception.PasswordInvalidException;
-import com.awildemann.demo_park_api.exception.UsernameUniqueViolationException;
+import com.awildemann.demo_park_api.exception.*;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -46,7 +43,7 @@ public class ApiExceptionHandler {
                 .body(new ErrorMessage(request, HttpStatus.NOT_FOUND, ex.getMessage()));
     }
 
-    @ExceptionHandler({UsernameUniqueViolationException.class, CpfUniqueViolationException.class})
+    @ExceptionHandler({UsernameUniqueViolationException.class, CpfUniqueViolationException.class, CodigoUniqueViolationException.class})
     public ResponseEntity<ErrorMessage> userNameUniqueViolationException(RuntimeException ex, HttpServletRequest request) {
         log.error("Api Error - ", ex);
         return ResponseEntity
