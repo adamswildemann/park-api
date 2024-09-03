@@ -1,5 +1,6 @@
 package com.awildemann.demo_park_api;
 
+import com.awildemann.demo_park_api.entity.Cliente;
 import com.awildemann.demo_park_api.web.dto.ClienteCreateDTO;
 import com.awildemann.demo_park_api.web.dto.ClienteResponseDTO;
 import com.awildemann.demo_park_api.web.dto.PageableDTO;
@@ -200,6 +201,21 @@ public class ClienteIT {
                 .get()
                 .uri("/api/v1/clientes")
                 .headers(JwtAuthentication.getHeaderAuthorization(testClient, "joao@email.com", "123456"))
+                .exchange()
+                .expectStatus().isForbidden()
+                .expectBody(ErrorMessage.class)
+                .returnResult().getResponseBody();
+
+        Assertions.assertThat(responseBody).isNotNull();
+        Assertions.assertThat(responseBody.getStatus()).isEqualTo(403);
+    }
+
+    @Test
+    public void buscarClienteComDadosDoTokenAdminStatus403() {
+        ErrorMessage responseBody = testClient
+                .get()
+                .uri("/api/v1/clientes/detalhes")
+                .headers(JwtAuthentication.getHeaderAuthorization(testClient, "ana@email.com", "123456"))
                 .exchange()
                 .expectStatus().isForbidden()
                 .expectBody(ErrorMessage.class)
